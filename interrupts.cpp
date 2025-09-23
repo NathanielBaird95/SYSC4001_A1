@@ -99,11 +99,11 @@ now_ms += 1;
 
             if(now_ms < t_done) now_ms = t_done;
 
-            append(now_ms,t_done," end of i/o " + std::to_string(dev) + ": interrupt");
+            append(now_ms,delays[dev],"end of i/o " + std::to_string(dev) + ": interrupt");
 
             auto[pre, t_after] = intr_boilerplate(now_ms, dev, ctx_ms, vectors);
             execution += pre;
-            now_ms += t_after;
+            now_ms = t_after;
 
             append(now_ms, isr_ms, "execute isr body");
             now_ms += isr_ms;
