@@ -55,8 +55,50 @@ int main(int argc, char **argv)
             emit(current_time, ms, "user CPU burst");
             current_time += ms;
         }
-
+        else if (activity == "SYSCALL") {
+            int dev = duration_intr;
+            check_dev(dev);
+        
+            // Hardware/entry sequence
+            auto [prelog, t_after] = intr_boilerplate(current_time, dev, context_save_ms, vectors);
+            execution += prelog;
+            current_time = t_after;
+        
+            // Minimal syscall work: arm/start I/O on that device
+            emit(current_time, syscall_overhead_ms, "syscall: start I/O on device " + std::to_string(dev));
+            current_time += syscall_overhead_ms;
+        
+            // Return to user (trap return)
+            emit(current_time, return_overhead_ms, "return to user mode");
+            current_time += return_overhead_ms;
+        }
+        else if (activity == "END_IO") {
+            int dev = duration_intr;
+            check_dev(dev);
+        
+            // Hardware entry
+            auto [prelog, t_after] = intr_boilerplate(current_time, dev, context_save_ms, vectors);
+            execution += prelog;
+            current_time = t_after;
+        
+            // Device-specific ISR body
+            int isr_ms = delays.at(dev);
+            emit(current_time, isr_ms, "run ISR for device " + std::to_string(dev));
+            current_time += isr_ms;
+        
+            // Bookkeeping & return
+            emit(current_time, 1, "EOI/clear device flag");
+            current_time += 1;
+        
+            emit(current_time, return_overhead_ms, "return from interrupt");
+            current_time += return_overhead_ms;
+        }
+        else {
+            std::cerr << "Unknown activity: " << activity << std::endl;
+            exit(1);
+        }
         /************************************************************************/
+        
     }
 
     input_file.close();

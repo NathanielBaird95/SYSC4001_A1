@@ -1,1 +1,15 @@
 0, 5, user CPU burst
+5, 1, switch to kernel mode
+6, 2, context saved
+8, 1, find vector 1 in memory position 0x0002
+9, 1, load address 0X029C into the PC
+10, 1, syscall: start I/O on device 1
+11, 1, return to user mode
+12, 1, switch to kernel mode
+13, 2, context saved
+15, 1, find vector 1 in memory position 0x0002
+16, 1, load address 0X029C into the PC
+17, 100, run ISR for device 1
+117, 1, EOI/clear device flag
+118, 1, return from interrupt
+119, 2, user CPU burst
