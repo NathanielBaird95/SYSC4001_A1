@@ -90,10 +90,15 @@ int main(int argc, char **argv)
     execution += prelog;
     current_time = t_after;
 
-    // Device-specific ISR body
+    // Device-specific ISR body, broken into 40 ms chunks
     int isr_ms = delays.at(dev);
-    emit(current_time, isr_ms, "run ISR for device " + std::to_string(dev));
-    current_time += isr_ms;
+    int remaining = isr_ms;
+    while (remaining > 0) {
+        int chunk = std::min(40, remaining);
+        emit(current_time, chunk, "ISR activity for device " + std::to_string(dev));
+        current_time += chunk;
+        remaining -= chunk;
+    }
 
     // Clear interrupt / acknowledge
     emit(current_time, 1, "EOI/clear device flag");
@@ -107,10 +112,11 @@ int main(int argc, char **argv)
     emit(current_time, scheduler_overhead_ms, "scheduler dispatches process");
     current_time += scheduler_overhead_ms;
 
-    // Return from interrupt
+    // Return from interrupt (IRET)
     emit(current_time, return_overhead_ms, "return from interrupt");
     current_time += return_overhead_ms;
 }
+
         else {
             std::cerr << "Unknown activity: " << activity << std::endl;
             exit(1);
