@@ -76,7 +76,7 @@ int main(int argc, char **argv)
     emit(current_time, scheduler_overhead_ms, "scheduler selects next process");
     current_time += scheduler_overhead_ms;
 
-    // Return to user mode
+    // Return to user mode (IRET)
     emit(current_time, return_overhead_ms, "return to user mode");
     current_time += return_overhead_ms;
 }
