@@ -21,7 +21,7 @@ int main(int argc, char** argv) {
     /******************ADD YOUR VARIABLES HERE*************************/
     int now_ms = 0; // simulation clock in ms
     int ctx_ms = 10; // context save or restore time
-    int isr_ms = 190; // isr body time per invocation
+    int isr_ms = 40; // isr body time per invocation
 
   
 
