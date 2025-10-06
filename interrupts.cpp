@@ -63,9 +63,6 @@ int main(int argc, char** argv) {
             now_ms += isr_ms;
 
             
-            
-
-            
             execution += std::to_string(now_ms) + ", 1, IRET\n";
             now_ms += 1;
             run_return_to_user();
@@ -83,8 +80,7 @@ int main(int argc, char** argv) {
             execution += std::to_string(now_ms) + ", " + std::to_string(isr_ms) + ", execute isr body\n";
             now_ms += isr_ms;
 
-           
-
+        
             execution += std::to_string(now_ms) + ", 1, IRET\n";
             now_ms += 1;
             run_return_to_user();
