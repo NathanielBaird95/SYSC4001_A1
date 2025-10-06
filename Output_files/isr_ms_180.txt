@@ -1,0 +1,18 @@
+0, 50, cpu
+50, 1, switch to kernel mode
+51, 10, context saved
+61, 1, find vector 7 in memory position 0x000E
+62, 1, load address 0X00BD into the PC
+63, 180, execute isr body
+243, 1, IRET
+244, 10, context restored
+254, 1, switch to user mode
+255, 152, end of i/o 7: interrupt
+407, 1, switch to kernel mode
+408, 10, context saved
+418, 1, find vector 7 in memory position 0x000E
+419, 1, load address 0X00BD into the PC
+420, 180, execute isr body
+600, 1, IRET
+601, 10, context restored
+611, 1, switch to user mode
