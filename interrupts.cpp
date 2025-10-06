@@ -40,9 +40,7 @@ int main(int argc, char** argv) {
 
         /******************ADD YOUR SIMULATION CODE HERE*************************/
 
-      
-        while (!activity.empty() && (activity.front() == ' ' || activity.front() == '\t')) activity.erase(activity.begin());
-        while (!activity.empty() && (activity.back() == ' ' || activity.back() == '\t' || activity.back() == '\r')) activity.pop_back();
+   
 
         if (activity == "CPU" || activity == "cpu") {
             
